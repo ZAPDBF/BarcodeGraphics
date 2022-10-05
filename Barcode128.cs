@@ -1,15 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Reflection.Metadata.Ecma335;
-using System.Reflection.PortableExecutable;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Barcode
+using ImageZap; 
+    namespace Barcode
 {
-    public static class Barcode128
+    public  class Barcode128:BarcodeAbstract
     {
 
         public const int CodeTypeA = 0;
@@ -18,7 +11,7 @@ namespace Barcode
         const int TypeAValue = 103;
         const int TypeBValue = 104;
         const int TypeCValue = 105;
-        public static Image CreateBarcode(string EncodingNumber, SizeF size, int CodeType,int TextLoc)
+        public override byte[] MakeBarcode(string EncodingNumber, SizeF size, int CodeType,int TextLoc)
 
         {
             int CheckSum = 0;
@@ -116,35 +109,34 @@ foreach(char c in EncodingNumber)
 
 
 
-            Bitmap bmpBarcode = new Bitmap((int)size.Width, (int)size.Height);
-            using (Graphics g = Graphics.FromImage(bmpBarcode))
-            {
-                g.Clear(Color.White);
+            BarImage bmpBarcode = new ((int)size.Width, (int)size.Height);
+             
 
                 float Cloc = QuietZone;
-                Brush bBlack = new SolidBrush(Color.Black);
-                Brush bWhite = new SolidBrush(Color.White);
-                Brush cBrush = bWhite;
+               Boolean IsWhite = true;
                 foreach (char t in pattern)
                 {
 
-                    if (cBrush == bWhite) cBrush = bBlack; else cBrush = bWhite;
+                IsWhite = !IsWhite;
                     switch (t)
                     {
                         case '1':
-                            g.FillRectangle(cBrush, Cloc, TopMargin, SingleBarWidth, BarHeight);
-                            Cloc += SingleBarWidth;
+                           // g.FillRectangle(cBrush, Cloc, TopMargin, SingleBarWidth, BarHeight);
+                        if (!IsWhite)
+                        bmpBarcode.MakeBar(Cloc, TopMargin, SingleBarWidth, BarHeight);
+                        
+                        Cloc += SingleBarWidth;
                             break;
                         case '2': 
-                            g.FillRectangle(cBrush, Cloc, TopMargin, DoubleBarWidth, BarHeight);
+                           if (!IsWhite) bmpBarcode.MakeBar( Cloc, TopMargin, DoubleBarWidth, BarHeight);
                             Cloc += DoubleBarWidth;
                             break;
                         case '3': 
-                            g.FillRectangle(cBrush, Cloc, TopMargin, TrippleBarWidth, BarHeight);
+                           if(!IsWhite) bmpBarcode.MakeBar( Cloc, TopMargin, TrippleBarWidth, BarHeight);
                             Cloc += TrippleBarWidth;
                             break;
                         case '4': 
-                            g.FillRectangle(cBrush, Cloc, TopMargin, QuadrupleBarWidth, BarHeight);
+                            if(!IsWhite) bmpBarcode.MakeBar( Cloc, TopMargin, QuadrupleBarWidth, BarHeight);
                             Cloc += QuadrupleBarWidth;
                             break;
 
@@ -175,11 +167,11 @@ foreach(char c in EncodingNumber)
                     }
 
 
-                    Font cFont = new Font("Aerial", BarcodeTools.GetFontPointSize(Height));
+                  //  Font cFont = new Font("Aerial", BarcodeTools.GetFontPointSize(Height));
 
-                    float XLoc = 0;
-                    XLoc = ((float)size.Width / (float)2) - (g.MeasureString(EncodingNumber, cFont).Width / (float)2);
-                    g.DrawString(EncodingNumber, cFont, bBlack, XLoc, Yloc);
+                    //float XLoc = 0;
+                  //  XLoc = ((float)size.Width / (float)2) - (g.MeasureString(EncodingNumber, cFont).Width / (float)2);
+                  //  g.DrawString(EncodingNumber, cFont, bBlack, XLoc, Yloc);
 
 
 
@@ -189,8 +181,8 @@ foreach(char c in EncodingNumber)
                 }
 
 
-            }
-            return (Image)bmpBarcode;
+            
+            return bmpBarcode.ImageArray ;
 
 
 
@@ -322,8 +314,9 @@ foreach(char c in EncodingNumber)
 
         }
 
+       
 
-    private static string StartCodeA
+        private static string StartCodeA
     { get
         {
 

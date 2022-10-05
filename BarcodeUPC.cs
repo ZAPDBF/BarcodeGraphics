@@ -1,10 +1,6 @@
 ﻿using System;
-using System.CodeDom.Compiler;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
+using ImageZap;
 
 namespace Barcode
 {  // code definitoions
@@ -14,8 +10,8 @@ namespace Barcode
    // 4= quadrupal  
 
     // 5 = special narrow black
-// 6= special narrow white
-    public static class BarcodeUPC
+    // 6= special narrow white
+    public  class BarcodeUPC:BarcodeAbstract
     {
 
         // left 6 start with White
@@ -23,23 +19,26 @@ namespace Barcode
         // fixed 12 digit numric only
 
 
-        public static string MiddleGuard = "65656";
-        public static string StartAndEnd = "565";
+        public static string MiddleGuard = "1111";
+        public static string StartAndEnd = "111";
         public static string[] BarPattern = { "3211", "2221", "2122", "1411", "1132", "1231", "1114", "1312", "1213", "3112" };
+        public const int UPCA = 1;
+        public const int UPCE = 2;
 
-        public static Image GenerateBarcode(string upc, SizeF size)
+
+        public  override byte[] MakeBarcode(string upc, SizeF size,int BarcodeType,int TextLoc)
         {
 
-            int CheckSum = 0;
+           
             string patternLeft = StartAndEnd;
-            string PatternRight="";
+            string PatternRight = "";
             int x = 0;
-            int ic=0;
-            foreach(char c in upc)
+            int ic = 0;
+            foreach (char c in upc)
             {
                 x++;
                 int.TryParse(c.ToString(), out ic);
-                if (x <=6)
+                if (x <= 6)
                 {
                     patternLeft += BarPattern[ic];
 
@@ -54,85 +53,72 @@ namespace Barcode
 
             }
 
+            PatternRight += StartAndEnd;
+
+            string pattern;
+            pattern = patternLeft +MiddleGuard+PatternRight;
 
 
 
-
-
-
-
+            Boolean IsBlackBar = false; //Lined up with left guard pattern
 
             // find relitave length of whole barcode to determine barcode widths
             int RelitiveSize = 0;
-
             int ot = 0;
-            foreach (char i in pattern)
-            {
-                int.TryParse(i.ToString(), out ot);
-                RelitiveSize += ot;
-            }
+
             int QuietZone = (int)((size.Width * .2) / 2);
             int PrintArea = (int)(size.Width - (QuietZone * 2));
-
-
-
-
-
-            float SingleBarWidth = (float)PrintArea / (float)RelitiveSize;
-
+            float Cloc = QuietZone; // end of quiet zone
+            float SingleBarWidth =  (float)PrintArea / (float)RelitiveSize;
             float DoubleBarWidth = (SingleBarWidth * 2);
             float TrippleBarWidth = (SingleBarWidth * 3);
             float QuadrupleBarWidth = (SingleBarWidth * 4);
 
             int TopMargin = (int)((size.Height * .2) / 2);
             int BarHeight = (int)(size.Height - (TopMargin * 2));
-
-
-
-            // double Ratio = ((double)NarrowBarscount / (double)PrintArea);
-
-
-          
             
-
-            Bitmap bmpBarcode = new Bitmap((int)size.Width, (int)size.Height);
-            using (Graphics g = Graphics.FromImage(bmpBarcode))
+            BarImage bmpBarcode = new((int)size.Width, (int)size.Height);
+            // key to proper usage is that the colors will alternate
+            // and that the center guard made up of 4 bars will altrinate
+            foreach (int t in pattern)
             {
-                g.Clear(Color.White);
 
-                float Cloc = QuietZone;
-                Brush bBlack = new SolidBrush(Color.Black);
-                Brush bWhite = new SolidBrush(Color.White);
-
-                foreach (int t in pattern)
+                IsBlackBar = !IsBlackBar; // modify if black bar, if white bar just skip to next location
+                switch (t)
                 {
-                    switch (t)
-                    {
-                        case 1: // wide black
-                            g.FillRectangle(bBlack, Cloc, TopMargin, DoubleBarWidth, BarHeight);
-                            Cloc += DoubleBarWidth;
-                            break;
-                        case 2: // Narrow Black
-                            g.FillRectangle(bBlack, Cloc, TopMargin, SingleBarWidth, BarHeight);
-                            Cloc += SingleBarWidth;
-                            break;
-                        case 3: // Narrow White
-                            g.FillRectangle(bWhite, Cloc, TopMargin, SingleBarWidth, BarHeight);
-                            Cloc += SingleBarWidth;
-                            break;
-                        case 4: // Wide White
-                            g.FillRectangle(bWhite, Cloc, TopMargin, DoubleBarWidth, BarHeight);
-                            Cloc += DoubleBarWidth;
-                            break;
-
-
-                    }
+                    case 1: // Narrow black 1
+                       if (IsBlackBar)
+                        bmpBarcode.MakeBar( Cloc, TopMargin, SingleBarWidth, BarHeight);
+                        Cloc += SingleBarWidth;
+                        break;
+                    case 2: // mid Black 2
+                        if (IsBlackBar)
+                            bmpBarcode.MakeBar( Cloc, TopMargin, DoubleBarWidth, BarHeight);
+                        Cloc += DoubleBarWidth;
+                        break;
+                    case 3: // wide black 3
+                        if (IsBlackBar)
+                            bmpBarcode.MakeBar( Cloc, TopMargin, TrippleBarWidth, BarHeight);
+                        Cloc += TrippleBarWidth;
+                        break;
+                    case 4: // Wide White
+                        if (IsBlackBar)
+                            bmpBarcode.MakeBar(Cloc, TopMargin, QuadrupleBarWidth, BarHeight);
+                        Cloc += QuadrupleBarWidth;
+                        break;
 
 
                 }
 
-            }
-            return (Image)bmpBarcode;
-        }
+               
 
-    } }
+
+            }
+            return bmpBarcode.ImageArray;
+        } 
+    } 
+    
+    
+}    
+        
+    

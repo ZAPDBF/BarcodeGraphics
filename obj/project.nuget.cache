@@ -1,15 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "SAm24/bif7rgU9rkuKs2a0bZa1uli0saBZkkIEFM1x6x3El3dCqCCJJshtExUpoGXWgivL5CuT9DZTJ/1Fhhdw==",
+  "dgSpecHash": "mAv6/i6YitHpbOBMaFeEfIIgcM6peN5E7rVbJSk+pQgc/DwNJMT3GItrgNcUUD+QxareQJiXis2BtJnM6uvW5A==",
   "success": true,
   "projectFilePath": "C:\\Users\\doug\\source\\barcode\\Barcode\\Barcode.csproj",
-  "expectedPackageFiles": [
-    "C:\\Users\\doug\\.nuget\\packages\\microsoft.netcore.platforms\\5.0.0\\microsoft.netcore.platforms.5.0.0.nupkg.sha512",
-    "C:\\Users\\doug\\.nuget\\packages\\microsoft.win32.systemevents\\6.0.0\\microsoft.win32.systemevents.6.0.0.nupkg.sha512",
-    "C:\\Users\\doug\\.nuget\\packages\\sixlabors.imagesharp\\2.1.3\\sixlabors.imagesharp.2.1.3.nupkg.sha512",
-    "C:\\Users\\doug\\.nuget\\packages\\system.drawing.common\\6.0.0\\system.drawing.common.6.0.0.nupkg.sha512",
-    "C:\\Users\\doug\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\5.0.0\\system.runtime.compilerservices.unsafe.5.0.0.nupkg.sha512",
-    "C:\\Users\\doug\\.nuget\\packages\\system.text.encoding.codepages\\5.0.0\\system.text.encoding.codepages.5.0.0.nupkg.sha512"
-  ],
+  "expectedPackageFiles": [],
   "logs": []
 }

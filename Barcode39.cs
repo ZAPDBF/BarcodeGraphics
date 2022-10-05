@@ -1,30 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-//using System.Drawing;
 
-//using System.Drawing.Drawing2D;
-//using System.Drawing.Imaging;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
+using ImageZap;
 
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Processing;
-
-using SixLabors.ImageSharp.PixelFormats;
 
 namespace Barcode
 {
-   public static class Barcode39
+    public class Barcode39 : BarcodeAbstract
     {
 
 
       static  int[] GetCharCode39(Char cChar)
         {
-             List<int> iChar;
+            // List<int> iChar;
             // 0 = skip
             // 1= wide black
             //2 = narrow black
@@ -200,10 +187,18 @@ else
         }
 
 
-        public static Image CreateBarcode(string Barcode, SizeF size,int TextLoc)
+        public  byte[] MakeBarcode(string Barcode, SizeF size, int TextLoc) 
+        {
+            return MakeBarcode(Barcode, size, 0, TextLoc);
+
+
+        }
+
+        public override byte[] MakeBarcode(string Barcode, SizeF size, int encodingType, int TextLoc)
+
         {
 
-
+            //System.Drawing.Image bmp;
 
             List<int> barcodeSymbol = GetCharCode39('*').ToList(); // add beginning astrict
 
@@ -257,38 +252,66 @@ foreach(int i in barcodeSymbol)
 
             int TopMargin = (int)((size.Height * .2) / 2);
             int BarHeight = (int)(size.Height - (TopMargin * 2));
-            Bitmap bmpBarcode = new Bitmap((int)size.Width,(int)size.Height);
-            using (Graphics g = Graphics.FromImage(bmpBarcode))
-            { g.Clear(Color.White);
 
-                float Cloc = QuietZone;
-            IBrush  bBlack = new Brushes.Horizontal(Color.Black);
-                Brush bWhite = new SolidBrush(Color.White);
+            //  Bitmap bmpBarcode = new Bitmap((int)size.Width,(int)size.Height);
+
+            BarImage Image = new BarImage((int)size.Width,(int)size.Height);
+              
+                           
                 
+                float Cloc = QuietZone;
+           // Color  bBlack = new Color(new Rgba32((byte)0,(byte)0,(byte)0));
+            //Color  bWhite = new Color(new Rgba32((byte)255,(byte)255,(byte) 255));
+             //   PointF[] points = { new PointF(0, 0), new PointF(0,0) };
+              //  Pen pen = new Pen(bBlack, DoubleBarWidth);
                 foreach (int t  in barcodeSymbol)
                 {
+                  //  points[0].X = Cloc;
+                   // points[0].Y = TopMargin;
+                   // points[1].X = Cloc;
+                    //points[1].Y = TopMargin + BarHeight;
                     switch (t)
                     {
                         case 1: // wide black
-                            g.FillRectangle(bBlack, Cloc, TopMargin, DoubleBarWidth, BarHeight);
+                                // g.FillRectangle(bBlack, Cloc, TopMargin, DoubleBarWidth, BarHeight);
+
+                        Image.MakeBar(Cloc, TopMargin, DoubleBarWidth, BarHeight);  
+                        //pen = new Pen(bBlack, DoubleBarWidth);
+                            
+                            
                             Cloc += DoubleBarWidth;
                             break;
                         case 2: // Narrow Black
-                            g.FillRectangle(bBlack, Cloc, TopMargin, SingleBarWidth, BarHeight);    
-                            Cloc += SingleBarWidth;
+                                //g.FillRectangle(bBlack, Cloc, TopMargin, SingleBarWidth, BarHeight);    
+
+                        //       pen = new Pen(bBlack, SingleBarWidth);
+                        Image.MakeBar(Cloc, TopMargin, SingleBarWidth, BarHeight);
+                        Cloc += SingleBarWidth;
                             break;
                         case 3: // Narrow White
-                            g.FillRectangle(bWhite, Cloc, TopMargin, SingleBarWidth, BarHeight);
+                                //                            g.FillRectangle(bWhite, Cloc, TopMargin, SingleBarWidth, BarHeight);
+
+                            // since background is white no need to draw
+
+
+
                             Cloc += SingleBarWidth;
                             break;
                         case 4: // Wide White
-                            g.FillRectangle(bWhite, Cloc, TopMargin, DoubleBarWidth, BarHeight);
+                          //  g.FillRectangle(bWhite, Cloc, TopMargin, DoubleBarWidth, BarHeight);
+                           
+                            // since background is white no need to draw
+                            
+                            
                             Cloc += DoubleBarWidth;
                             break;
 
 
                     }
-
+                   // if (t == 1 || t == 2)
+                    //{
+                      //  image1.Mutate(xx => xx.DrawLines(pen, points));
+                   // }
 
                 }
 
@@ -314,11 +337,18 @@ foreach(int i in barcodeSymbol)
                     }
 
 
-                    Font cFont = new Font("Aerial", BarcodeTools.GetFontPointSize(Height));
+                   // Font cFont; // = new Font("Aerial", BarcodeTools.GetFontPointSize(Height));
+                  //  FontFamily ff;
+                  //  if (!SystemFonts.TryGet("Aerial", out ff)) throw new Exception("font Aerial; not found");
+                    
+                  //  cFont = ff.CreateFont(BarcodeTools.GetFontPointSize(TextLoc));
+                  //  TextOptions txtop = new TextOptions(cFont);
 
-                    float XLoc = 0;
-                    XLoc = ((float)size.Width / (float)2) - (g.MeasureString(Barcode, cFont).Width / (float)2);
-                    g.DrawString(Barcode, cFont, bBlack, XLoc, Yloc);
+                 //   float XLoc = 0;
+                   // XLoc = ((float)size.Width / (float)2) - (TextMeasurer.Measure(Barcode, txtop).Width / (float)2);
+                  //  image1.Mutate(xx => xx.DrawText(txtop, Barcode, bBlack));
+                    
+                    //g.DrawString(Barcode, cFont, bBlack, XLoc, Yloc);
 
 
 
@@ -329,32 +359,16 @@ foreach(int i in barcodeSymbol)
 
 
 
-
-            }
-            return (Image)bmpBarcode;
-
+            
+            return Image.ImageArray;
 
 
+           
 
+                }
 
-
-
-        }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        }   
+      
+    }   
     
     
     

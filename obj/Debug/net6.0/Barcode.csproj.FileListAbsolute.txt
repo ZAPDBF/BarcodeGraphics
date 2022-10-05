@@ -1,6 +1,3 @@
-C:\Users\doug\source\barcode\Barcode\bin\Debug\net6.0\Barcode.deps.json
-C:\Users\doug\source\barcode\Barcode\bin\Debug\net6.0\Barcode.dll
-C:\Users\doug\source\barcode\Barcode\bin\Debug\net6.0\Barcode.pdb
 C:\Users\doug\source\barcode\Barcode\obj\Debug\net6.0\Barcode.csproj.AssemblyReference.cache
 C:\Users\doug\source\barcode\Barcode\obj\Debug\net6.0\Barcode.Properties.Resources.resources
 C:\Users\doug\source\barcode\Barcode\obj\Debug\net6.0\Barcode.csproj.GenerateResource.cache
@@ -8,6 +5,12 @@ C:\Users\doug\source\barcode\Barcode\obj\Debug\net6.0\Barcode.GeneratedMSBuildEd
 C:\Users\doug\source\barcode\Barcode\obj\Debug\net6.0\Barcode.AssemblyInfoInputs.cache
 C:\Users\doug\source\barcode\Barcode\obj\Debug\net6.0\Barcode.AssemblyInfo.cs
 C:\Users\doug\source\barcode\Barcode\obj\Debug\net6.0\Barcode.csproj.CoreCompileInputs.cache
+C:\Users\doug\source\barcode\Barcode\bin\Debug\net6.0\Barcode.deps.json
+C:\Users\doug\source\barcode\Barcode\bin\Debug\net6.0\Barcode.dll
+C:\Users\doug\source\barcode\Barcode\bin\Debug\net6.0\Barcode.pdb
+C:\Users\doug\source\barcode\Barcode\bin\Debug\net6.0\ImageZap.dll
+C:\Users\doug\source\barcode\Barcode\bin\Debug\net6.0\ImageZap.pdb
+C:\Users\doug\source\barcode\Barcode\obj\Debug\net6.0\Barcode.csproj.CopyComplete
 C:\Users\doug\source\barcode\Barcode\obj\Debug\net6.0\Barcode.dll
 C:\Users\doug\source\barcode\Barcode\obj\Debug\net6.0\refint\Barcode.dll
 C:\Users\doug\source\barcode\Barcode\obj\Debug\net6.0\Barcode.pdb
