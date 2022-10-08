@@ -1,4 +1,4 @@
-﻿using System;
+﻿
 using ImageZap; 
     namespace Barcode
 {
@@ -14,8 +14,8 @@ using ImageZap;
         public override byte[] MakeBarcode(string EncodingNumber, SizeF size, int CodeType,int TextLoc)
 
         {
-            int CheckSum = 0;
-            string pattern = "";
+            int CheckSum;
+            string pattern;
             switch (CodeType)
             {
                 case CodeTypeA:
@@ -82,12 +82,12 @@ foreach(char c in EncodingNumber)
 
 
             // find relitave length of whole barcode to determine barcode widths
-            int RelitiveSize = 0;
+            int RelitiveSize=0;
             
-            int ot = 0;
+            
             foreach (char i in pattern)
             {
-                int.TryParse(i.ToString(), out ot);
+                if(int.TryParse(i.ToString(), out int ot))
                 RelitiveSize += ot;
            }
 
@@ -150,8 +150,8 @@ foreach(char c in EncodingNumber)
                 if (TextLoc == TextLocation.Top || TextLoc == TextLocation.Bottom)
                 {
 
-                    float Yloc = 0;
-                    float Height = 0;
+                    float Yloc;
+                    float Height;
                     if (TextLoc == TextLocation.Top)
                     {
                         Yloc = 1;
@@ -166,7 +166,7 @@ foreach(char c in EncodingNumber)
 
                     }
 
-
+                    // need to rebuild this
                   //  Font cFont = new Font("Aerial", BarcodeTools.GetFontPointSize(Height));
 
                     //float XLoc = 0;
@@ -328,8 +328,8 @@ foreach(char c in EncodingNumber)
     private static string StartCodeBPatern { get { return PatternRaw(104); } }
 
     private static string StartCodeCPatern { get { return PatternRaw(105); } }
-    private static string StopCodePattern { get { return PatternRaw(106); } }
-    private static string reverseStopCodePattern { get { return PatternRaw(107); } }
+   // private static string StopCodePattern { get { return PatternRaw(106); } }
+   // private static string reverseStopCodePattern { get { return PatternRaw(107); } }
     private static string StopPatternOverlap { get { return "2331112 "; } }
 }
 }
