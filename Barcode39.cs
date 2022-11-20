@@ -61,7 +61,7 @@ namespace Barcode
             else if ((int)cChar == 48) chartest = 9; // zero fix
 
 
-            else throw new ArgumentException(string.Format("The following Charater cannot be used in Code39 ascii({0}) or Char Value ({1})", (int)cChar, cChar));
+            else throw new ArgumentException(string.Format("The following Charater cannot be used in Code39 ascii({0}) or Char Value ({1}) (20)", (int)cChar, cChar));
             int[] BasePattern=one;
             int[] Multiplier=noChange;
 
@@ -322,11 +322,11 @@ foreach(int i in barcodeSymbol)
 
                     float Yloc = 0;
                     float Height = 0;
-                    if (TextLoc == TextLocation.Top)
+                    if (TextLoc == TextLocation.Bottom)
                     {
                         Yloc = 1;
                         Height = TopMargin - 10;
-
+                    Image.MakeText(10, Yloc, Height, Barcode);
                     }
                     else
                     {
@@ -337,18 +337,6 @@ foreach(int i in barcodeSymbol)
                     }
 
 
-                   // Font cFont; // = new Font("Aerial", BarcodeTools.GetFontPointSize(Height));
-                  //  FontFamily ff;
-                  //  if (!SystemFonts.TryGet("Aerial", out ff)) throw new Exception("font Aerial; not found");
-                    
-                  //  cFont = ff.CreateFont(BarcodeTools.GetFontPointSize(TextLoc));
-                  //  TextOptions txtop = new TextOptions(cFont);
-
-                 //   float XLoc = 0;
-                   // XLoc = ((float)size.Width / (float)2) - (TextMeasurer.Measure(Barcode, txtop).Width / (float)2);
-                  //  image1.Mutate(xx => xx.DrawText(txtop, Barcode, bBlack));
-                    
-                    //g.DrawString(Barcode, cFont, bBlack, XLoc, Yloc);
 
 
 

@@ -1,0 +1,36 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v6.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v6.0": {
+      "Barcode/1.0.0": {
+        "dependencies": {
+          "ImageZap": "1.0.0"
+        },
+        "runtime": {
+          "Barcode.dll": {}
+        }
+      },
+      "ImageZap/1.0.0": {
+        "runtime": {
+          "ImageZap.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Barcode/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "ImageZap/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
